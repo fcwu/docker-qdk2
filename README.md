@@ -15,4 +15,4 @@ $ ls -l example/ghost/build/ghost_0.7.4_x86_64.qpkg
 -rw-r--r-- 1 u u 24242 Dec 30 13:10 example/ghost/build/ghost_0.7.4_x86_64.qpkg
 ```
 
-Make sure there is Container Station installed on QNAP NAS, then manually install ``example/ghost/build/ghost_0.7.4_x86_64.qpkg`` in App Center.
+A QPKG was created in `example/ghost/build/ghost_0.7.4_x86_64.qpkg`. Make sure there is Container Station installed on QNAP NAS, then manually install it in App Center.
