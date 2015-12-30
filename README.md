@@ -3,7 +3,7 @@ Create Docker App on QNAP NAS in QPKG format
 
 NOTE: Before starting to pack QPKG, install docker.
 
-This repo provides Docker image [dorowu/qdk2] and a sample QPKG source of [Ghost], a blogging platform to show how easily to pack Dockerized QPKG.
+This repo provides Docker image [dorowu/qdk2](https://hub.docker.com/r/dorowu/qdk2/) and a sample QPKG source of [Ghost](https://ghost.org/), a blogging platform to show how easily to pack Dockerized QPKG.
 
 Steps
 =========================
