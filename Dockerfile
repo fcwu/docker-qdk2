@@ -2,9 +2,6 @@
 FROM ubuntu:14.04.3
 MAINTAINER Doro Wu <fcwu.tw@gmail.com>
 
-# cache
-RUN sed -i 's#http://archive.ubuntu.com/#http://qnap.dorowu.com/#' /etc/apt/sources.list
-
 # Install.
 RUN \
   apt-get update && \
