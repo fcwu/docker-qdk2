@@ -1,0 +1,24 @@
+postgresql:
+  restart: always
+  image: sameersbn/postgresql:9.4-11
+  environment:
+    - DB_USER=gitlab
+    - DB_PASS=password
+    - DB_NAME=gitlabhq_production
+gitlab:
+  restart: always
+  image: sameersbn/gitlab:8.2.3
+  links:
+    - redis:redisio
+    - postgresql:postgresql
+  ports:
+    - "127.0.0.1:10080:80"
+    - "10022:22"
+  environment:
+    - GITLAB_PORT=10080
+    - GITLAB_SSH_PORT=10022
+    - GITLAB_SECRETS_DB_KEY_BASE=qcs-gitlab-app
+    - GITLAB_RELATIVE_URL_ROOT=/gitlab/
+redis:
+  restart: always
+  image: sameersbn/redis:latest
