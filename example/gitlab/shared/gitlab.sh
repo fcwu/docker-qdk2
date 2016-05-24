@@ -18,9 +18,9 @@ qbus_cmd() {
 }
 
 start_container_when_status_stop() {
-    status=($CONTAINER_STATION_DIR/bin/qbus get com.qnap.dqpkg/qpkg | \
-        $JQ '.result[] | select(.qpkg | contains("online-document")).status')
-    [ x"$status" = x"stopped" ] && qbus_cmd start
+    status=$($CONTAINER_STATION_DIR/bin/qbus get com.qnap.dqpkg/qpkg | \
+        $JQ '.result[] | select(.qpkg | contains("'$QPKG_NAME'")).status')
+    [ x"$status" = x\"stopped\" ] && qbus_cmd start
 }
 
 
