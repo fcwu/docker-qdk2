@@ -3,6 +3,7 @@ QPKG_CONF=/etc/config/qpkg.conf
 QPKG_NAME=redmine
 DOCKER=system-docker
 CONTAINER_STATION_DIR=$(/sbin/getcfg container-station Install_Path -f $QPKG_CONF)
+JQ=$CONTAINER_STATION_DIR/usr/bin/jq
 
 exit_code_check() {
     if [ "$1" != "0" ]; then
