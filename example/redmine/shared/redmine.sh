@@ -5,24 +5,10 @@ DOCKER=system-docker
 CONTAINER_STATION_DIR=$(/sbin/getcfg container-station Install_Path -f $QPKG_CONF)
 JQ=$CONTAINER_STATION_DIR/usr/bin/jq
 
-exit_code_check() {
-    if [ "$1" != "0" ]; then
-        /sbin/log_tool -t2 -uSystem -p127.0.0.1 -mlocalhost -a "[$QPKG_NAME] $2"
-        exit 1
-    fi
-}
-
 qbus_cmd() {
     $CONTAINER_STATION_DIR/bin/qbus post com.qnap.dqpkg/qpkg \
         '{"qpkg": "'$QPKG_NAME'", "action": "'$1'"}'
 }
-
-start_container_when_status_stop() {
-    status=$($CONTAINER_STATION_DIR/bin/qbus get com.qnap.dqpkg/qpkg | \
-        $JQ '.result[] | select(.qpkg | contains("'$QPKG_NAME'")).status')
-    [ x"$status" = x\"stopped\" ] && qbus_cmd start || return 0
-}
-
 
 case "$1" in
   start)
@@ -31,14 +17,11 @@ case "$1" in
         echo "$QPKG_NAME is disabled."
         exit 1
     fi
-
-    start_container_when_status_stop
-    exit_code_check $? "Start failed" 
+    qbus_cmd start
     ;;
 
   stop)
     qbus_cmd stop
-    exit_code_check $? "Stop failed" 
     ;;
 
   restart)
@@ -48,7 +31,6 @@ case "$1" in
 
   remove)
     qbus_cmd remove
-    exit_code_check $? "Remove failed" 
     ;;
   *)
     echo "Usage: $0 {start|stop|restart}"
