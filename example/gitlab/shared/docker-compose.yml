@@ -1,24 +1,46 @@
-postgresql:
-  restart: always
-  image: sameersbn/postgresql:9.4-11
-  environment:
+version: '2'
+
+services:
+  redis:
+    restart: always
+    image: sameersbn/redis:latest
+    command:
+    - --loglevel warning
+
+  postgresql:
+    restart: always
+    image: sameersbn/postgresql:9.5-1
+    environment:
     - DB_USER=gitlab
     - DB_PASS=password
     - DB_NAME=gitlabhq_production
-gitlab:
-  restart: always
-  image: sameersbn/gitlab:8.2.3
-  links:
-    - redis:redisio
-    - postgresql:postgresql
-  ports:
+    - DB_EXTENSION=pg_trgm
+
+  gitlab:
+    restart: always
+    image: sameersbn/gitlab:8.11.2-1
+    depends_on:
+    - redis
+    - postgresql
+    ports:
     - "127.0.0.1:10080:80"
     - "10022:22"
-  environment:
+    environment:
+    - DEBUG=false
+
+    - DB_ADAPTER=postgresql
+    - DB_HOST=postgresql
+    - DB_PORT=5432
+    - DB_USER=gitlab
+    - DB_PASS=password
+    - DB_NAME=gitlabhq_production
+
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+
     - GITLAB_PORT=10080
     - GITLAB_SSH_PORT=10022
+    - GITLAB_RELATIVE_URL_ROOT=/gitlab
     - GITLAB_SECRETS_DB_KEY_BASE=qcs-gitlab-app
-    - GITLAB_RELATIVE_URL_ROOT=/gitlab/
-redis:
-  restart: always
-  image: sameersbn/redis:latest
+    - GITLAB_SECRETS_SECRET_KEY_BASE=qcs-gitlab-app
+    - GITLAB_SECRETS_OTP_KEY_BASE=qcs-gitlab-app

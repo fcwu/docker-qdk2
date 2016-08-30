@@ -1,9 +1,5 @@
-.PHONY: all ghost gitlab redmine joomla
 
-all: ghost gitlab redmine joomla
-
-ghost:
-	cd ghost && /usr/share/qdk2/QDK/bin/qbuild --build-dir build
+all: gitlab redmine joomla
 
 gitlab:
 	cd gitlab && /usr/share/qdk2/QDK/bin/qbuild --build-dir build
@@ -13,3 +9,6 @@ redmine:
 
 joomla:
 	cd joomla && fakeroot /usr/share/qdk2/QDK/bin/qbuild --build-dir build
+
+
+.PHONY: all gitlab redmine joomla

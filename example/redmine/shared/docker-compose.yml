@@ -1,15 +1,28 @@
-postgresql:
-  image: sameersbn/postgresql:9.4-11
-  environment:
+version: '2'
+
+services:
+  postgresql:
+    image: sameersbn/postgresql:9.5-2
+    environment:
     - DB_USER=redmine
     - DB_PASS=password
     - DB_NAME=redmine_production
-redmine:
-  image: sameersbn/redmine:3.2.0-1
-  links:
-    - postgresql:postgresql
-  environment:
+
+  redmine:
+    image: sameersbn/redmine:3.3.0-4
+    depends_on:
+    - postgresql
+    environment:
+    - DB_ADAPTER=postgresql
+    - DB_HOST=postgresql
+    - DB_PORT=5432
+    - DB_USER=redmine
+    - DB_PASS=password
+    - DB_NAME=redmine_production
+
     - REDMINE_PORT=10083
+    - REDMINE_HTTPS=false
     - REDMINE_RELATIVE_URL_ROOT=/redmine
-  ports:
-    - "127.0.0.1:10083:80"
+
+    ports:
+    - "10083:80"

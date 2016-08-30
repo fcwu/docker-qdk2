@@ -1,16 +1,19 @@
-db:
-  image: mariadb:10.1.16
-  environment:
-    - MYSQL_ROOT_PASSWORD=admin
-    - MYSQL_USER=joomla
-    - MYSQL_PASSWORD=joomla
-    - MYSQL_DATABASE=joomla
-web:
-  image: seterrychen/joomla-nginx-fpm:3.6.0
-  links:
-    - db:mariadb
-  ports:
-    - "127.0.0.1:10082:80"
-  environment:
-    - DB_HOST=mariadb
-    - JOOMLA_RELATIVE_URL_ROOT=/joomla
+version: '2'
+
+services:
+  mariadb:
+    image: mariadb:10.1
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=joomla
+      - MYSQL_PASSWORD=joomla
+      - MYSQL_DATABASE=joomla
+  joomla:
+    image: seterrychen/joomla-nginx-fpm:3.6.0
+    depends_on:
+    - mariadb
+    ports:
+      - "127.0.0.1:10082:80"
+    environment:
+      - DB_HOST=mariadb
+      - JOOMLA_RELATIVE_URL_ROOT=/joomla
