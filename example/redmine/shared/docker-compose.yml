@@ -22,7 +22,7 @@ services:
 
     - REDMINE_PORT=10083
     - REDMINE_HTTPS=false
-    - REDMINE_RELATIVE_URL_ROOT=/redmine
+    - REDMINE_RELATIVE_URL_ROOT=/redmine/
 
     ports:
     - "10083:80"

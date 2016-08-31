@@ -11,4 +11,7 @@ joomla:
 	cd joomla && fakeroot /usr/share/qdk2/QDK/bin/qbuild --build-dir build
 
 
-.PHONY: all gitlab redmine joomla
+clean:
+	sudo rm -f */build/*.qpkg
+
+.PHONY: all clean gitlab redmine joomla
