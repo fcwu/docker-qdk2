@@ -25,4 +25,4 @@ services:
     - REDMINE_RELATIVE_URL_ROOT=/redmine/
 
     ports:
-    - "10083:80"
+    - "127.0.0.1:10083:80"

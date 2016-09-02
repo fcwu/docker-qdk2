@@ -25,7 +25,7 @@ complete_action() {
             /sbin/setcfg $QPKG_NAME Enable FALSE -f /etc/config/qpkg.conf
             break
         fi
-        if [ $state == "installing" ]; then
+        if [ $state == "installing" ] && [ $1 == "running" ]; then
             break
         fi
         if [ $state == $1 ]; then
@@ -60,7 +60,7 @@ case "$1" in
 
   remove)
     qbus_cmd remove
-    complete_action init 30
+    complete_action init 60
     ;;
   *)
     echo "Usage: $0 {start|stop|restart}"
