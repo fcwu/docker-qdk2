@@ -6,6 +6,8 @@ services:
     image: sameersbn/redis:latest
     command:
     - --loglevel warning
+    volumes:
+    - ./redis:/var/lib/redis:Z
 
   postgresql:
     restart: always
@@ -15,6 +17,8 @@ services:
     - DB_PASS=password
     - DB_NAME=gitlabhq_production
     - DB_EXTENSION=pg_trgm
+    volumes:
+    - ./postgresql:/var/lib/postgresql:Z
 
   gitlab:
     restart: always
@@ -24,7 +28,7 @@ services:
     - postgresql
     ports:
     - "127.0.0.1:10080:80"
-    - "10022:22"
+    - "127.0.0.1:10022:22"
     environment:
     - DEBUG=false
 
@@ -44,3 +48,5 @@ services:
     - GITLAB_SECRETS_DB_KEY_BASE=qcs-gitlab-app
     - GITLAB_SECRETS_SECRET_KEY_BASE=qcs-gitlab-app
     - GITLAB_SECRETS_OTP_KEY_BASE=qcs-gitlab-app
+    volumes:
+    - ./gitlab:/home/git/data:Z
