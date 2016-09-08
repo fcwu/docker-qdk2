@@ -21,7 +21,7 @@ complete_action() {
         progress=`$QBUS get $URI | $JQ .result.progress`
         echo Current state: $state
         echo Current progress: $progress
-        if [ $progress -eq -1 ]; then
+        if [ $progress -eq -1 ] && [ $1 == "running" ]; then
             /sbin/setcfg $QPKG_NAME Enable FALSE -f /etc/config/qpkg.conf
             break
         fi
