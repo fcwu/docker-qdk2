@@ -3,6 +3,9 @@ version: '2'
 services:
   mariadb:
     image: mariadb:10.1
+    extends:
+      file: extend-services.yml
+      service: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_USER=joomla
@@ -10,6 +13,9 @@ services:
       - MYSQL_DATABASE=joomla
   joomla:
     image: seterrychen/joomla-nginx-fpm:3.6.0
+    extends:
+      file: extend-services.yml
+      service: joomla
     depends_on:
     - mariadb
     ports:

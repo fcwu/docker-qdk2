@@ -4,6 +4,9 @@ services:
   redis:
     restart: always
     image: sameersbn/redis:latest
+    extends:
+      file: extend-services.yml
+      service: redis
     command:
     - --loglevel warning
     volumes:
@@ -12,6 +15,9 @@ services:
   postgresql:
     restart: always
     image: sameersbn/postgresql:9.5-1
+    extends:
+      file: extend-services.yml
+      service: postgresql
     environment:
     - DB_USER=gitlab
     - DB_PASS=password
@@ -23,6 +29,9 @@ services:
   gitlab:
     restart: always
     image: sameersbn/gitlab:8.11.5
+    extends:
+      file: extend-services.yml
+      service: gitlab
     depends_on:
     - redis
     - postgresql
