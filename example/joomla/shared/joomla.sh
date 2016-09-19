@@ -25,6 +25,9 @@ complete_action() {
             /sbin/setcfg $QPKG_NAME Enable FALSE -f /etc/config/qpkg.conf
             break
         fi
+        if [ $state == "installing" ] && [ $1 == "running" ]; then
+            break
+        fi
         if [ $state == $1 ]; then
             echo Matched!
             break
