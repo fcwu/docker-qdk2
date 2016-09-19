@@ -25,9 +25,6 @@ complete_action() {
             /sbin/setcfg $QPKG_NAME Enable FALSE -f /etc/config/qpkg.conf
             break
         fi
-        if [ $state == "installing" ] && [ $1 == "running" ]; then
-            break
-        fi
         if [ $state == $1 ]; then
             echo Matched!
             break
@@ -63,7 +60,7 @@ case "$1" in
     complete_action init 60
     ;;
   *)
-    echo "Usage: $0 {start|stop|restart}"
+    echo "Usage: $0 {start|stop|restart|remove}"
     exit 1
 esac
 
