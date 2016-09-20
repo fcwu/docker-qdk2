@@ -28,7 +28,7 @@ services:
 
   gitlab:
     restart: always
-    image: sameersbn/gitlab:8.11.5
+    image: sameersbn/gitlab:8.11.6
     extends:
       file: extend-services.yml
       service: gitlab
