@@ -137,14 +137,11 @@
 #}
 
 pkg_post_install(){
+    . qpkg.cfg
     QPKG_CONF=/etc/config/qpkg.conf
-    QPKG_VERSION=$(/sbin/getcfg $QPKG_NAME Version -f $QPKG_CONF)
-    CONTAINER_STATION=$(/sbin/getcfg container-station Install_Path -f $QPKG_CONF)
 
     DEPEND_ON=container-station
-    /sbin/setcfg $QPKG_NAME depend_on "${DEPEND_ON}" -f /etc/config/qpkg.conf
-    /sbin/setcfg $QPKG_NAME Timeout "120,60" -f /etc/config/qpkg.conf
-
-    /sbin/log_tool -t0 -uSystem -p127.0.0.1 -mlocalhost -a "[$QPKG_NAME] Start installation"
-    $CONTAINER_STATION/bin/qbus post com.qnap.dqpkg/qpkg '{"qpkg": "'$QPKG_NAME'", "action": "install"}'
+    /sbin/setcfg $QPKG_NAME depend_on "${DEPEND_ON}" -f $QPKG_CONF
+    /sbin/setcfg $QPKG_NAME Timeout "${QPKG_TIMEOUT}" -f $QPKG_CONF
+    INSTALL_PATH=$(/sbin/getcfg ${QPKG_NAME} Install_Path -f $QPKG_CONF)
 }

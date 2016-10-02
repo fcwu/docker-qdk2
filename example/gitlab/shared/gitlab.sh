@@ -1,56 +1,85 @@
 #!/bin/sh
 QPKG_CONF=/etc/config/qpkg.conf
 QPKG_NAME=gitlab
+QPKG_DISPLAY_NAME=$(/sbin/getcfg $QPKG_NAME Display_Name -f $QPKG_CONF)
 DOCKER=system-docker
 CONTAINER_STATION_DIR=$(/sbin/getcfg container-station Install_Path -f $QPKG_CONF)
 JQ=$CONTAINER_STATION_DIR/usr/bin/jq
 QBUS=$CONTAINER_STATION_DIR/bin/qbus
 URI=com.qnap.dqpkg/qpkg/$QPKG_NAME
 
-qbus_cmd() {
-    $QBUS post com.qnap.dqpkg/qpkg \
-        '{"qpkg": "'$QPKG_NAME'", "action": "'$1'"}'
+
+. $CONTAINER_STATION_DIR/script/qpkg-functions
+
+
+wait_qcs_ready() {
+    if ! which ${DOCKER} >/dev/null 2>&1; then
+        # waiting for lxc
+        TIMEOUT=10
+        if qts_qpkg_is_enabled "container-station"; then
+            local count=0
+            while ! which lxc-start >/dev/null 2>&1; do
+                sleep 1
+                (( count++ ))
+                debug_msg "waiting for lxc: $count"
+                [ $count -ge $TIMEOUT ] && break
+            done
+        fi
+
+        if ! which ${DOCKER} >/dev/null 2>&1; then
+            local msg="Container Station is not installed or enabled."
+            if qts_find_parent_process $$ appRequest.cgi; then
+                qts_log_error "$msg"
+                qts_qpkg_disable $QPKG_NAME
+            else
+                echo "$msg"
+            fi
+            qts_error_exit
+        fi
+    fi
 }
 
+qbus_cmd() {
+    # $1: command {start|stop}
+    $QBUS put com.qnap.dqpkg/qpkg/${QPKG_NAME}/$1
+}
 
 complete_action() {
-    echo Expected result: $1
-    echo Timeout: $2
+    # $1: expected states
+    # $2: timeout
+    echo "Wait \"$1\" state in $2 seconds"
     for ((i=0; i<=$2; i++)); do
-        state=`$QBUS get $URI | $JQ .result.state | sed 's/\"//g'`
-        progress=`$QBUS get $URI | $JQ .result.progress`
-        echo Current state: $state
-        echo Current progress: $progress
-        if [ $progress -eq -1 ] && [ $1 == "running" ]; then
-            /sbin/setcfg $QPKG_NAME Enable FALSE -f /etc/config/qpkg.conf
+        echo -n "."
+        output=`QBUS_FORMAT=indent-json $QBUS get $URI`
+        code=`echo $output | $JQ .code`
+        state=`echo $output | $JQ .result.state | sed 's/\"//g'`
+        progress=`echo $output | $JQ .result.progress`
+        if [ "$code" != "200" ]; then
+            echo "ERROR: get error response code: $code"
             break
         fi
-        if [ $state == "installing" ] && [ $1 == "running" ]; then
-            break
-        fi
-        if [ $state == $1 ]; then
-            echo Matched!
+        if echo "$1" | grep -q "$state"; then
             break
         fi
         sleep 1; 
     done
+    echo
 }
 
 
 case "$1" in
   start)
-    ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $QPKG_CONF)
-    if [ "$ENABLED" != "TRUE" ]; then
-        echo "$QPKG_NAME is disabled."
-        exit 1
+    if ! qts_qpkg_is_enabled $QPKG_NAME; then
+        qts_error_exit "$QPKG_DISPLAY_NAME is disabled."
     fi
+    wait_qcs_ready
     qbus_cmd start
-    complete_action running 120
+    complete_action "configure installing installed starting running stopping stopped" 120
     ;;
 
   stop)
     qbus_cmd stop
-    complete_action stopped 30
+    complete_action "stopped" 30
     ;;
 
   restart)
@@ -60,10 +89,10 @@ case "$1" in
 
   remove)
     qbus_cmd remove
-    complete_action init 60
+    complete_action "removed" 60
     ;;
   *)
-    echo "Usage: $0 {start|stop|restart|remove}"
+    echo "Usage: $0 {start|stop|restart}"
     exit 1
 esac
 
