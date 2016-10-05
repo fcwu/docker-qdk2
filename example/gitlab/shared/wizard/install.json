@@ -3,23 +3,120 @@
   "title": "{{GITLAB_NAME}}",
   "wizard": [
     {
-      "title": "{{GITLAB_CONFIGURE}}",
+      "title": "{{GITLAB_BASE_PAGE}}",
       "schema": {
+        "hostname": {
+          "title": "{{GITLAB_HOST}}",
+          "type": "string",
+          "description": "{{GITLAB_HOST_DESC}}",
+          "required": true
+        },
         "http_port": {
-          "type": "integer",
           "title": "HTTP Port",
+          "type": "integer",
           "description": "{{GITLAB_WEB_HOST_PORT_DESC}}",
-		  "required": true
+          "minimum": 1,
+          "maximum": 65535,
+          "required": true
         },
         "ssh_port": {
-          "type": "integer",
           "title": "SSH Port",
+          "type": "integer",
           "description": "{{GITLAB_SSH_HOST_PORT_DESC}}",
-		  "required": true
+          "minimum": 1,
+          "maximum": 65535,
+          "required": true
+        },
+        "root_password": {
+          "title": "{{GITLAB_ROOT_PASSWD}}",
+          "type": "string",
+          "description": "{{GITLAB_ROOT_PASSWD_DESC}}",
+          "minLength": 8,
+          "maxLength": 128,
+          "required": true
+        },
+        "root_email": {
+          "title": "{{GITLAB_ROOT_EMAIL}}",
+          "type": "string",
+          "pattern": "^\\S+@\\S+\\.\\S+$",
+          "description": "{{GITLAB_ROOT_EMAIL_DESC}}",
+          "validationMessage": "{{GITLAB_ROOT_EMAIL_MSG}}",
+          "required": true
         }
       },
       "form": [
-        "*"
+        {
+          "key": "hostname",
+          "placeholder": "localhost"
+        },
+        "http_port",
+        "ssh_port",
+        "root_email",
+        {
+          "key": "root_password",
+          "type": "password"
+        }
+      ]
+    },
+    {
+      "title": "{{GITLAB_SMTP_PAGE}}",
+      "schema": {
+        "smtp_enabled": {
+          "title": "{{GITLAB_SMTP_ENABLED}}",
+          "type": "boolean",
+          "description": "{{GITLAB_SMTP_ENABLED_DESC}}",
+          "required": true
+        },
+        "smtp_host": {
+          "title": "{{GITLAB_SMTP_HOST}}",
+          "type": "string",
+          "description": "{{GITLAB_SMTP_HOST_DESC}}",
+          "required": true
+        },
+        "smtp_port": {
+          "title": "{{GITLAB_SMTP_PORT}}",
+          "type": "integer",
+          "description": "{{GITLAB_SMTP_PORT_DESC}}",
+          "minimum": 1,
+          "maximum": 65535,
+          "required": true
+        },
+        "smtp_user": {
+          "title": "{{GITLAB_SMTP_USER}}",
+          "type": "string",
+          "description": "{{GITLAB_SMTP_USER_DESC}}"
+        },
+        "smtp_pass": {
+          "title": "{{GITLAB_SMTP_PASS}}",
+          "type": "string",
+          "description": "{{GITLAB_SMTP_PASS_DESC}}"
+        },
+        "smtp_tls": {
+          "title": "{{GITLAB_SMTP_TLS}}",
+          "type": "boolean",
+          "description": "{{GITLAB_SMTP_TLS_DESC}}",
+          "required": true
+        }
+      },
+      "form": [
+        "smtp_enabled",
+        {
+          "key": "smtp_host",
+          "condition": "model.smtp_enabled"
+        },
+        {
+          "key": "smtp_port",
+          "condition": "model.smtp_enabled"
+        },
+        {
+          "key": "smtp_user",
+          "condition": "model.smtp_enabled"
+        },
+        {
+          "key": "smtp_pass",
+          "type": "password",
+          "condition": "model.smtp_enabled"
+        }
       ]
     }
   ],
@@ -27,6 +124,7 @@
     "type": "yaml",
     "file": "docker-compose.yml",
     "data": {
+      "hostname": "gitlab.environment.GITLAB_HOST",
       "http_port": [
         "gitlab.ports[0]",
         "gitlab.environment.GITLAB_PORT"
@@ -34,7 +132,15 @@
       "ssh_port": [
         "gitlab.environment.GITLAB_SSH_PORT",
         "gitlab.ports[1]"
-      ]
+      ],
+      "root_password": "gitlab.environment.GITLAB_ROOT_PASSWORD",
+      "root_email": "gitlab.environment.GITLAB_ROOT_EMAIL",
+      "smtp_enabled": "gitlab.environment.SMTP_ENABLED",
+      "smtp_host": "gitlab.environment.SMTP_HOST",
+      "smtp_port": "gitlab.environment.SMTP_PORT",
+      "smtp_user": "gitlab.environment.SMTP_USER",
+      "smtp_pass": "gitlab.environment.SMTP_PASS",
+      "smtp_tls": "gitlab.environment.SMTP_TLS"
     },
     "template": ["*.tpl"]
   }

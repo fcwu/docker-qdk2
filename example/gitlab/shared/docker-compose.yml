@@ -27,7 +27,7 @@ services:
     - redis
     - postgresql
     ports:
-    - "127.0.0.1:10080:80"
+    - "0.0.0.0:10080:80"
     - "0.0.0.0:10022:22"
     environment:
     - DEBUG=false
@@ -42,11 +42,22 @@ services:
     - REDIS_HOST=redis
     - REDIS_PORT=6379
 
+    - GITLAB_HOST=
     - GITLAB_PORT=10080
     - GITLAB_SSH_PORT=10022
     - GITLAB_RELATIVE_URL_ROOT=/gitlab/
     - GITLAB_SECRETS_DB_KEY_BASE=qcs-gitlab-app
     - GITLAB_SECRETS_SECRET_KEY_BASE=qcs-gitlab-app
     - GITLAB_SECRETS_OTP_KEY_BASE=qcs-gitlab-app
+
+    - GITLAB_ROOT_EMAIL=
+    - GITLAB_ROOT_PASSWORD=
+
+    - SMTP_ENABLED=false
+    - SMTP_HOST=smtp.gmail.com
+    - SMTP_PORT=587
+    - SMTP_USER=
+    - SMTP_PASS=
+    - SMTP_TLS=false
     volumes:
     - ${PWD}/data/gitlab:/home/git/data:Z

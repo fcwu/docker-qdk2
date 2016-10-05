@@ -3,9 +3,3 @@ Your docker host needs to have 1GB or more of available RAM to run GitLab. Pleas
 
 ## Description 
 __NOTE__: Please allow a few minutes for the GitLab service to start.
-
-Login using the default username and password:
-
-Username: **root**
-
-Password: **5iveL!fe**

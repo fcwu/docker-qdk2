@@ -2,8 +2,8 @@
 QPKG_CONF=/etc/config/qpkg.conf
 QPKG_NAME=gitlab
 QPKG_DISPLAY_NAME=$(/sbin/getcfg $QPKG_NAME Display_Name -f $QPKG_CONF)
-DOCKER=system-docker
 CONTAINER_STATION_DIR=$(/sbin/getcfg container-station Install_Path -f $QPKG_CONF)
+DOCKER=$CONTAINER_STATION_DIR/bin/system-docker
 JQ=$CONTAINER_STATION_DIR/usr/bin/jq
 QBUS=$CONTAINER_STATION_DIR/bin/qbus
 URI=com.qnap.dqpkg/qpkg/$QPKG_NAME
@@ -21,7 +21,6 @@ wait_qcs_ready() {
             while ! which lxc-start >/dev/null 2>&1; do
                 sleep 1
                 (( count++ ))
-                debug_msg "waiting for lxc: $count"
                 [ $count -ge $TIMEOUT ] && break
             done
         fi
