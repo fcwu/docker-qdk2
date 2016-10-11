@@ -9,7 +9,7 @@
           "title": "{{GITLAB_HOST}}",
           "type": "string",
           "description": "{{GITLAB_HOST_DESC}}",
-          "required": true
+          "required": false
         },
         "http_port": {
           "title": "HTTP Port",
@@ -27,21 +27,13 @@
           "maximum": 65535,
           "required": true
         },
-        "root_password": {
-          "title": "{{GITLAB_ROOT_PASSWD}}",
-          "type": "string",
-          "description": "{{GITLAB_ROOT_PASSWD_DESC}}",
-          "minLength": 8,
-          "maxLength": 128,
-          "required": true
-        },
         "root_email": {
           "title": "{{GITLAB_ROOT_EMAIL}}",
           "type": "string",
           "pattern": "^\\S+@\\S+\\.\\S+$",
           "description": "{{GITLAB_ROOT_EMAIL_DESC}}",
           "validationMessage": "{{GITLAB_ROOT_EMAIL_MSG}}",
-          "required": true
+          "required": false
         }
       },
       "form": [
@@ -51,11 +43,7 @@
         },
         "http_port",
         "ssh_port",
-        "root_email",
-        {
-          "key": "root_password",
-          "type": "password"
-        }
+        "root_email"
       ]
     },
     {
@@ -99,7 +87,10 @@
         }
       },
       "form": [
-        "smtp_enabled",
+        {
+          "key": "smtp_enabled",
+          "labelHtmlClass": "hide"
+        },
         {
           "key": "smtp_host",
           "condition": "model.smtp_enabled"
@@ -133,7 +124,6 @@
         "gitlab.environment.GITLAB_SSH_PORT",
         "gitlab.ports[1]"
       ],
-      "root_password": "gitlab.environment.GITLAB_ROOT_PASSWORD",
       "root_email": "gitlab.environment.GITLAB_ROOT_EMAIL",
       "smtp_enabled": "gitlab.environment.SMTP_ENABLED",
       "smtp_host": "gitlab.environment.SMTP_HOST",

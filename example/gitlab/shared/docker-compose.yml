@@ -22,13 +22,13 @@ services:
 
   gitlab:
     restart: always
-    image: sameersbn/gitlab:8.11.7
+    image: sameersbn/gitlab:8.12.3
     depends_on:
     - redis
     - postgresql
     ports:
-    - "0.0.0.0:10080:80"
-    - "0.0.0.0:10022:22"
+    - "10080:80"
+    - "10022:22"
     environment:
     - DEBUG=false
 
