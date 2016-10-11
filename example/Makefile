@@ -8,10 +8,10 @@ nginx:
 	cd nginx && qdk2 build --qdk1 --build-dir build --build-arch x86_64
 
 redmine:
-	cd redmine && fakeroot /usr/share/qdk2/QDK/bin/qbuild --build-dir build
+	cd redmine && qdk2 build --qdk1 --build-dir build --build-arch x86_64
 
 joomla:
-	cd joomla && fakeroot /usr/share/qdk2/QDK/bin/qbuild --build-dir build
+	cd joomla && qdk2 build --qdk1 --build-dir build --build-arch x86_64
 
 
 clean:
