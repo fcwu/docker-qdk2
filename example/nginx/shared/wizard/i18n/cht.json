@@ -1,0 +1,5 @@
+{
+  "NGINX_NAME": "Nginx",
+  "NGINX_BASE_PAGE": "設定服務",
+  "NGINX_WEB_HOST_PORT_DESC": "設定網頁伺服器的 Port，預設是 18080",
+}

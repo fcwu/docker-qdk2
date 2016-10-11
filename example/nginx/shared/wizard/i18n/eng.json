@@ -1,0 +1,5 @@
+{
+  "NGINX_NAME": "Nginx",
+  "NGINX_BASE_PAGE": "Configure service",
+  "NGINX_WEB_HOST_PORT_DESC": "The port of the web server. Defaults to 18080."
+}

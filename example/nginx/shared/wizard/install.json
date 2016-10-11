@@ -1,0 +1,30 @@
+{
+  "api_version": "v1",
+  "title": "{{NGINX_NAME}}",
+  "wizard": [
+    {
+      "title": "{{NGINX_BASE_PAGE}}",
+      "schema": {
+        "http_port": {
+          "title": "HTTP Port",
+          "type": "integer",
+          "description": "{{NGINX_WEB_HOST_PORT_DESC}}",
+          "minimum": 1,
+          "maximum": 65535,
+          "required": true
+        }
+      },
+      "form": [
+        "http_port"
+      ]
+    }
+  ],
+  "binding": {
+    "type": "yaml",
+    "file": "docker-compose.yml",
+    "data": {
+      "http_port": "nginx.ports[0]"
+    },
+    "template": ["*.tpl"]
+  }
+}

@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:1.11-alpine
+    ports:
+      - "0.0.0.0:18080:80"
