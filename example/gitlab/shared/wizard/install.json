@@ -109,28 +109,115 @@
           "condition": "model.smtp_enabled"
         }
       ]
+    },
+    {
+      "title": "{{GITLAB_LDAP_PAGE}}",
+      "schema": {
+        "ldap_enabled": {
+          "title": "{{GITLAB_LDAP_ENABLED}}",
+          "type": "boolean",
+          "description": "{{GITLAB_LDAP_ENABLED_DESC}}",
+          "required": true
+        },
+        "ldap_label": {
+          "title": "{{GITLAB_LDAP_LABEL}}",
+          "type": "string",
+          "description": "{{GITLAB_LDAP_LABEL_DESC}}",
+          "required": true
+        },
+        "ldap_host": {
+          "title": "{{GITLAB_LDAP_HOST}}",
+          "type": "string",
+          "description": "{{GITLAB_LDAP_HOST_DESC}}",
+          "required": true
+        },
+        "ldap_port": {
+          "title": "{{GITLAB_LDAP_PORT}}",
+          "type": "integer",
+          "description": "{{GITLAB_LDAP_PORT_DESC}}",
+          "minimum": 1,
+          "maximum": 65535,
+          "required": true
+        },
+        "ldap_bind_dn": {
+          "title": "{{GITLAB_LDAP_BIND_DN}}",
+          "type": "string",
+          "description": "{{GITLAB_LDAP_BIND_DN_DESC}}",
+          "required": true
+        },
+        "ldap_pass": {
+          "title": "{{GITLAB_LDAP_PASS}}",
+          "type": "string",
+          "description": "{{GITLAB_LDAP_PASS_DESC}}",
+          "required": true
+        },
+        "ldap_base": {
+          "title": "{{GITLAB_LDAP_BASE}}",
+          "type": "string",
+          "description": "{{GITLAB_LDAP_BASE_DESC}}",
+          "required": true
+        }
+      },
+      "form": [
+        {
+          "key": "ldap_enabled",
+          "labelHtmlClass": "hide"
+        },
+        {
+          "key": "ldap_label",
+          "condition": "model.ldap_enabled"
+        },
+        {
+          "key": "ldap_host",
+          "condition": "model.ldap_enabled"
+        },
+        {
+          "key": "ldap_port",
+          "condition": "model.ldap_enabled"
+        },
+        {
+          "key": "ldap_bind_dn",
+          "condition": "model.ldap_enabled"
+        },
+        {
+          "key": "ldap_pass",
+          "type": "password",
+          "condition": "model.ldap_enabled"
+        },
+        {
+          "key": "ldap_base",
+          "condition": "model.ldap_enabled"
+        }
+      ]
     }
   ],
   "binding": {
     "type": "yaml",
     "file": "docker-compose.yml",
     "data": {
-      "hostname": "gitlab.environment.GITLAB_HOST",
+      "hostname": "services.gitlab.environment.GITLAB_HOST",
       "http_port": [
-        "gitlab.ports[0]",
-        "gitlab.environment.GITLAB_PORT"
+        "services.gitlab.ports[0]",
+        "services.gitlab.environment.GITLAB_PORT"
       ],
       "ssh_port": [
-        "gitlab.environment.GITLAB_SSH_PORT",
-        "gitlab.ports[1]"
+        "services.gitlab.environment.GITLAB_SSH_PORT",
+        "services.gitlab.ports[1]"
       ],
-      "root_email": "gitlab.environment.GITLAB_ROOT_EMAIL",
-      "smtp_enabled": "gitlab.environment.SMTP_ENABLED",
-      "smtp_host": "gitlab.environment.SMTP_HOST",
-      "smtp_port": "gitlab.environment.SMTP_PORT",
-      "smtp_user": "gitlab.environment.SMTP_USER",
-      "smtp_pass": "gitlab.environment.SMTP_PASS",
-      "smtp_tls": "gitlab.environment.SMTP_TLS"
+      "root_email": "services.gitlab.environment.GITLAB_ROOT_EMAIL",
+      "smtp_enabled": "services.gitlab.environment.SMTP_ENABLED",
+      "smtp_host": "services.gitlab.environment.SMTP_HOST",
+      "smtp_port": "services.gitlab.environment.SMTP_PORT",
+      "smtp_user": "services.gitlab.environment.SMTP_USER",
+      "smtp_pass": "services.gitlab.environment.SMTP_PASS",
+      "smtp_tls": "services.gitlab.environment.SMTP_TLS",
+      "ldap_enabled": "services.gitlab.environment.LDAP_ENABLED",
+      "ldap_label": "services.gitlab.environment.LDAP_LABEL",
+      "ldap_host": "services.gitlab.environment.LDAP_HOST",
+      "ldap_port": "services.gitlab.environment.LDAP_PORT",
+      "ldap_bind_dn": "services.gitlab.environment.LDAP_BIND_DN",
+      "ldap_pass": "services.gitlab.environment.LDAP_PASS",
+      "ldap_base": "services.gitlab.environment.LDAP_BASE"
     },
     "template": ["*.tpl"]
   }

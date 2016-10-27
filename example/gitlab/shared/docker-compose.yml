@@ -11,7 +11,7 @@ services:
 
   postgresql:
     restart: always
-    image: sameersbn/postgresql:9.5-1
+    image: sameersbn/postgresql:9.5-3
     environment:
     - DB_USER=gitlab
     - DB_PASS=password
@@ -22,7 +22,7 @@ services:
 
   gitlab:
     restart: always
-    image: sameersbn/gitlab:8.12.3
+    image: sameersbn/gitlab:8.13.1
     depends_on:
     - redis
     - postgresql
