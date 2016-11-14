@@ -23,7 +23,7 @@
     "type": "yaml",
     "file": "docker-compose.yml",
     "data": {
-      "http_port": "nginx.ports[0]"
+      "http_port": "services.nginx.ports[0]"
     },
     "template": ["*.tpl"]
   }
