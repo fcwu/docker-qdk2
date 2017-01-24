@@ -8,7 +8,9 @@
         "hostname": {
           "title": "{{GITLAB_HOST}}",
           "type": "string",
+          "pattern": "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$",
           "description": "{{GITLAB_HOST_DESC}}",
+          "validationMessage": "{{GITLAB_HOST_MSG}}",
           "required": false
         },
         "http_port": {
