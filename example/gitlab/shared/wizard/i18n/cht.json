@@ -3,7 +3,7 @@
   "GITLAB_BASE_PAGE": "設定基本服務",
   "GITLAB_HOST": "GitLab 主機名稱",
   "GITLAB_HOST_DESC": "將它替換為類似 gitlab.example.com",
-  "GITLAB_HOST_MSG": "請輸入正確的 FQDN",
+  "GITLAB_HOST_MSG": "必須以字母或數字開頭和結尾，並且只能包含: a-z, A-Z, 0-9, 句點 (.), 或連字號 (-)",
   "GITLAB_WEB_HOST_PORT_DESC": "設定 GitLab 網頁伺服器的 Port，預設是 10080",
   "GITLAB_SSH_HOST_PORT_DESC": "設定 GitLab SSH 伺服器的 Port，預設是 10022",
   "GITLAB_ROOT_EMAIL": "管理員 Email",

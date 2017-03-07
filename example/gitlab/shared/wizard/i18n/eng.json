@@ -3,7 +3,7 @@
   "GITLAB_BASE_PAGE": "Configure common service",
   "GITLAB_HOST": "GitLab Hostname",
   "GITLAB_HOST_DESC": "Replace this with something like gitlab.example.com",
-  "GITLAB_HOST_MSG": "Please enter a valid FQDN",
+  "GITLAB_HOST_MSG": "It must start and end with a letter or number and can only contain: a-z, A-Z, 0-9, dot (.), or dash (-)",
   "GITLAB_WEB_HOST_PORT_DESC": "The port of the GitLab server. Defaults to 10080",
   "GITLAB_SSH_HOST_PORT_DESC": "The SSH port number. Defaults to 10022",
   "GITLAB_ROOT_EMAIL": "Root Email",
