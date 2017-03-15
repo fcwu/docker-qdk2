@@ -2,16 +2,16 @@
 all: gitlab nginx redmine joomla
 
 gitlab:
-	cd gitlab && qdk2 build --qdk1 --build-dir build --build-arch x86_64
+	cd gitlab && /usr/share/qdk2/QDK/bin/qbuild --build-dir build --build-arch x86_64
 
 nginx:
-	cd nginx && qdk2 build --qdk1 --build-dir build --build-arch x86_64
+	cd nginx && /usr/share/qdk2/QDK/bin/qbuild --build-dir build --build-arch x86_64
 
 redmine:
-	cd redmine && qdk2 build --qdk1 --build-dir build --build-arch x86_64
+	cd redmine && /usr/share/qdk2/QDK/bin/qbuild --build-dir build --build-arch x86_64
 
 joomla:
-	cd joomla && qdk2 build --qdk1 --build-dir build --build-arch x86_64
+	cd joomla && /usr/share/qdk2/QDK/bin/qbuild --build-dir build --build-arch x86_64
 
 
 clean:
