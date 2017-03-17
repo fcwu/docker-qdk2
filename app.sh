@@ -1,14 +1,25 @@
-#!/bin/dash
+#!/bin/sh -e
 
-set -e
+[ "$#" -eq 0 ] && {
+	[ -d "/src" ] || {
+		echo "No /src found"
+		exit 0
+	}
+    cd /src
+    # build
+    /usr/share/qdk2/QDK/bin/qbuild --build-dir ../build --build-arch x86_64
+    # check file
+    qpkgfile=`stat -c "%n" ../build/*.qpkg`
+    qpkgbasename=`basename $qpkgfile`
+    [ -f "$qpkgfile" ] || { echo "No QPKG found"; exit 1; }
+    # copy back
+    cp "$qpkgfile" ./
+    # set owner
+    uid=`stat -c "%u" qpkg.cfg`
+    gid=`stat -c "%g" qpkg.cfg`
+    chown $uid:$gid $qpkgbasename
+    ls -l "$qpkgbasename"
+    exit 0
+}
 
-if [ x"${timezone}" != "x" ]; then
-    sudo sh -c "echo ${timezone} > /etc/timezone"
-    sudo dpkg-reconfigure -f noninteractive tzdata
-fi
-if [ "$#" -ge 1 ]; then
-    p=$1
-    shift 
-    exec $p "$@"
-fi
-exec bash "$@"
+exec "$@"
