@@ -1,5 +1,4 @@
-# Pull base image.
-FROM ubuntu:14.04.3
+FROM ubuntu:14.04
 MAINTAINER Doro Wu <fcwu.tw@gmail.com>
 
 # Install.
